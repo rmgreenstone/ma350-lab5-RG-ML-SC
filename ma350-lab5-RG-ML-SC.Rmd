@@ -70,9 +70,7 @@ quartiles(x)
 
 
 
-```{r}
-
-```
+By inspection, it appears that 28.7 will be the only outlier.
 
 
 
@@ -81,7 +79,19 @@ quartiles(x)
 
 
 ```{r}
+tukey.outlier <- function(x){
+  outlier <- vector(length = length(x))
+  for (i in 1:length(x)) {
+    if(x[i] < quartiles(x)[1]-1.5*quartiles(x)[3] | x[i] > quartiles(x)[2]+1.5*quartiles(x)[3]){
+      outlier[i] <- TRUE
+    } else {
+      outlier[i] <- FALSE
+    }
+  }
+  return(outlier)
+}
 
+tukey.outlier(x)
 ```
 
 
