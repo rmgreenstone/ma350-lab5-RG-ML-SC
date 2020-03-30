@@ -1,6 +1,6 @@
 ---
 title: "ma350-lab5-RG-ML-SC"
-author: "RG, ML, and SC"
+author: "RG, Matt Lawson, and Sam Cavalli"
 date: "3/26/2020"
 output: html_document
 ---
@@ -32,9 +32,14 @@ x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
 
 
 ```{r}
-
+quantile(x)
+sort(x)
+quant.4 <- quantile(x)[4]
+quant.2 <- quantile(x)[2]
+quant.4-quant.2
 ```
 
+The first quartile is -4.525, the second quartile is 1.1 and the third quartile is 4.9. The interquartile range of x is Q3 - Q1 which is 9.425.I know these values are all correct based off arithmetic. 
 
 
 ## 2
@@ -42,7 +47,21 @@ x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
 
 
 ```{r}
+quartiles <- function(X){
 
+  the.quantiles <- quantile(X)
+  quant.one <- quantile(X)[2]
+  quant.three <- quantile(X)[4]
+  inter <- quant.three-quant.one
+  
+   quart.vector<- c(quant.one, quant.three, inter)
+  names(quart.vector) <- c("1st Quartile", "3rd Quartile", "Interquartile Range")
+  
+
+  return(quart.vector)
+ 
+}
+quartiles(x)
 ```
 
 
