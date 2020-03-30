@@ -44,9 +44,12 @@ The first quartile is -4.525, the second quartile is 1.1 and the third quartile 
 
 ## 2
 
-
-
 ```{r}
+#' Take a vector containing a sample and return a vector with three components: the first quartile, the third quartile, and the interquartile range"
+#' @param X vector containing a sample
+#'
+#' @return a vector with the first quartile, the third quartile, and the interquartile range
+
 quartiles <- function(X){
 
   the.quantiles <- quantile(X)
@@ -69,10 +72,7 @@ quartiles(x)
 ## 3
 
 
-
-```{r}
-
-```
+According to Tukey's rule,  28.7 is an outlier. 
 
 
 
@@ -81,7 +81,23 @@ quartiles(x)
 
 
 ```{r}
-
+tukey.outlier <- function(X){
+  for (i in 1: X) {
+    if (i < -18.3875){
+      TRUE
+      
+    }else{
+      if (i > 19.0375){
+        
+        TRUE
+        
+      }else{
+        FALSE
+      }
+    }
+  }
+}
+tukey.outlier(x)
 ```
 
 
