@@ -106,17 +106,23 @@ The function gives the correct output because 28.7 is the only outlier and is th
 
 ## 5
 
-
-
 ```{r}
 test.tukey.outlier <- function(fun = tukey.outlier){
+  x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
   
+  outliers.booleans <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
+  
+  if(sum(fun(x)==outliers.booleans)==length(x)){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
   
 }
-
+test.tukey.outlier(tukey.outlier)
 ```
 
-
+The function test.tukey.outlier gives the correct answer when passed tukey.outlier. 
 
 ## 6
 
