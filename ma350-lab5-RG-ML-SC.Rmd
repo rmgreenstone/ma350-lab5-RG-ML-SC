@@ -60,7 +60,6 @@ quartiles <- function(X){
    quart.vector<- c(quant.one, quant.three, inter)
   names(quart.vector) <- c("1st Quartile", "3rd Quartile", "Interquartile Range")
   
-
   return(quart.vector)
  
 }
@@ -90,7 +89,7 @@ By inspection, it appears that 28.7 will be the only outlier.
 tukey.outlier <- function(X){
   outlier <- vector(length = length(X))
   for (i in 1:length(X)) {
-    if(x[i] < quartiles(X)[1]-1.5*quartiles(X)[3] | X[i] > quartiles(X)[2]+1.5*quartiles(X)[3]){
+    if(x[i] < quartiles(X)[1]-1.5*quartiles(X)[3] || X[i] > quartiles(X)[2]+1.5*quartiles(X)[3]){
       outlier[i] <- TRUE
     } else {
       outlier[i] <- FALSE
@@ -126,20 +125,36 @@ The function test.tukey.outlier gives the correct answer when passed tukey.outli
 
 ## 6
 
-
-
-```{r}
-
-```
-
-
+The data value that should be outliers in -x is -28.7.
 
 ## 7
 
 
-
 ```{r}
+test.tukey.outlier <- function(fun = tukey.outlier){
+  x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
+  
+negative.x <- c(-2.2, -7.8, 4.4, 0.0, 1.2, -3.9, -4.9, 5.7, 7.9, 4.9, -28.7, -4.9)
+  
 
+  outliers.booleans <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
+  
+  out.result <- rep(NA,2)
+  
+  if(sum(fun(x)==outliers.booleans)==length(x)){
+    out.result[1] <- TRUE
+  }else{
+    out.result[1] <- FALSE
+  }
+  
+ if(sum(fun(negative.x)==outliers.booleans)==length(negative.x)){
+   out.result[2] <- TRUE
+ }else{
+   out.result[2] <- FALSE
+ }
+ return(out.result) 
+}
+test.tukey.outlier(tukey.outlier)
 ```
 
 
