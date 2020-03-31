@@ -70,7 +70,7 @@ quartiles(x)
 
 
 
-By inspection, it appears that 28.7 will be the only outlier.
+By inspection, 28.7 will be the only outlier.
 
 
 
@@ -99,9 +99,10 @@ tukey.outlier(x)
 ## 5
 
 
-
 ```{r}
-
+test.tukey.outlier <- function(tukey.outlier) {
+  
+}
 ```
 
 
@@ -111,7 +112,7 @@ tukey.outlier(x)
 
 
 ```{r}
-
+-x
 ```
 
 
