@@ -34,9 +34,9 @@ x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
 ```{r}
 quantile(x)
 sort(x)
-quant.4 <- quantile(x)[4]
-quant.2 <- quantile(x)[2]
-quant.4-quant.2
+quant.4 <- quantile(x)[4] # Third Quartile
+quant.2 <- quantile(x)[2] # First Quartile
+quant.4-quant.2 # Interquartile Range, Q3 - Q1
 ```
 
 The first quartile is -4.525, the second quartile is 1.1 and the third quartile is 4.9. The interquartile range of x is Q3 - Q1 which is 9.425.I know these values are all correct based off arithmetic. 
@@ -53,12 +53,12 @@ The first quartile is -4.525, the second quartile is 1.1 and the third quartile 
 quartiles <- function(X){
 
   the.quantiles <- quantile(X)
-  quant.one <- quantile(X)[2]
-  quant.three <- quantile(X)[4]
-  inter <- quant.three-quant.one
+  quant.one <- quantile(X)[2] # First Quartile
+  quant.three <- quantile(X)[4] # Third Quartile
+  inter <- quant.three-quant.one # Interquartile Range, Q3 - Q1
   
-   quart.vector<- c(quant.one, quant.three, inter)
-  names(quart.vector) <- c("1st Quartile", "3rd Quartile", "Interquartile Range")
+   quart.vector<- c(quant.one, quant.three, inter) 
+  names(quart.vector) <- c("1st Quartile", "3rd Quartile", "Interquartile Range") # Naming the elements
   
   return(quart.vector)
  
@@ -66,19 +66,11 @@ quartiles <- function(X){
 quartiles(x)
 ```
 
-
-
 ## 3
 
-
-By inspection, it appears that 28.7 will be the only outlier.
-
-
-
+By inspection, 28.7 will be the only outlier.
 
 ## 4
-
-
 
 ```{r}
 #' Take a vector containing a sample and find the outliers
@@ -90,9 +82,9 @@ tukey.outlier <- function(X){
   outlier <- vector(length = length(X))
   for (i in 1:length(X)) {
     if(X[i] < quartiles(X)[1]-1.5*quartiles(X)[3] || X[i] > quartiles(X)[2]+1.5*quartiles(X)[3]){
-      outlier[i] <- TRUE
+      outlier[i] <- TRUE # TRUE if the element is an outlier
     } else {
-      outlier[i] <- FALSE
+      outlier[i] <- FALSE # FALSE if the element is not an outlier
     }
   }
   return(outlier)
@@ -107,6 +99,11 @@ The function gives the correct output because 28.7 is the only outlier and is th
 
 
 ```{r}
+#' Write a function which tests tukey.outlier
+#' @param fun function to compute outliers
+#'
+#' @return TRUE if the function correctly identifies the outliers and FALSE otherwise
+
 test.tukey.outlier <- function(fun = tukey.outlier){
   x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
   
@@ -126,13 +123,18 @@ The function test.tukey.outlier gives the correct answer when passed tukey.outli
 
 ## 6
 
-The data value that should be outliers in -x is -28.7.
+The data value that should be an outlier in -x is -28.7.
 
 
 ## 7
 
 
 ```{r}
+#' Write a function which tests tukey.outlier
+#' @param fun function to compute outliers
+#'
+#' @return a vector with TRUE if the function correctly identifies the outliers and FALSE otherwise
+
 test.tukey.outlier <- function(fun = tukey.outlier){
   x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
   
@@ -157,8 +159,8 @@ negative.x <- c(-2.2, -7.8, 4.4, 0.0, 1.2, -3.9, -4.9, 5.7, 7.9, 4.9, -28.7, -4.
  return(out.result) 
 }
 
-```
 
+```
 
 
 ## 8
@@ -168,27 +170,30 @@ negative.x <- c(-2.2, -7.8, 4.4, 0.0, 1.2, -3.9, -4.9, 5.7, 7.9, 4.9, -28.7, -4.
 test.tukey.outlier(tukey.outlier)
 ```
 
-Since we get two TRUE's this means that tukey.outlier() passes the new set of tests.
+tukey.outlier passes the new set of tests.
+
 
 
 ## 9
 
 
-The data value that should be an outlier in 0.1x is 2.87.
+The data value that should be an outlier in 0.1*x is 2.87.
 
 
 
 ## 10
 
 
-
 ```{r}
+#' Write a function which tests tukey.outlier
+#' @param fun function to compute outliers
+#'
+#' @return a vector with TRUE if the function correctly identifies the outliers and FALSE otherwise
 test.tukey.outlier <- function(fun = tukey.outlier){
   x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
   
 negative.x <- c(-2.2, -7.8, 4.4, 0.0, 1.2, -3.9, -4.9, 5.7, 7.9, 4.9, -28.7, -4.9)
-
-tenth.x <- c(.22, .78, -.44, 0.0, -.12, .39, .49, -.59, -.79, -.49, 2.87, .49)
+pointone.x <- 0.1*x
   
 
   outliers.booleans <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
@@ -207,12 +212,13 @@ tenth.x <- c(.22, .78, -.44, 0.0, -.12, .39, .49, -.59, -.79, -.49, 2.87, .49)
    out.result[2] <- FALSE
  }
   
-   if(sum(fun(tenth.x)==outliers.booleans)==length(tenth.x)){
+  if(sum(fun(pointone.x)==outliers.booleans)==length(pointone.x)){
    out.result[3] <- TRUE
  }else{
    out.result[3] <- FALSE
  }
- return(out.result) 
+ return(out.result)
+
 }
 ```
 
@@ -220,13 +226,11 @@ tenth.x <- c(.22, .78, -.44, 0.0, -.12, .39, .49, -.59, -.79, -.49, 2.87, .49)
 
 ## 11
 
-
-
 ```{r}
 test.tukey.outlier(tukey.outlier)
 ```
 
-
+The function tukey.outlier passes the new set of tests.
 
 
 
