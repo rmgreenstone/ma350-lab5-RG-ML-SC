@@ -44,9 +44,12 @@ The first quartile is -4.525, the second quartile is 1.1 and the third quartile 
 
 ## 2
 
-
-
 ```{r}
+#' Take a vector containing a sample and return a vector with three components: the first quartile, the third quartile, and the interquartile range
+#' @param X vector containing a sample
+#'
+#' @return a vector with the first quartile, the third quartile, and the interquartile range
+
 quartiles <- function(X){
 
   the.quantiles <- quantile(X)
@@ -57,7 +60,6 @@ quartiles <- function(X){
    quart.vector<- c(quant.one, quant.three, inter)
   names(quart.vector) <- c("1st Quartile", "3rd Quartile", "Interquartile Range")
   
-
   return(quart.vector)
  
 }
@@ -69,8 +71,8 @@ quartiles(x)
 ## 3
 
 
+By inspection, it appears that 28.7 will be the only outlier.
 
-By inspection, 28.7 will be the only outlier.
 
 
 
@@ -79,10 +81,15 @@ By inspection, 28.7 will be the only outlier.
 
 
 ```{r}
-tukey.outlier <- function(x){
-  outlier <- vector(length = length(x))
-  for (i in 1:length(x)) {
-    if(x[i] < quartiles(x)[1]-1.5*quartiles(x)[3] | x[i] > quartiles(x)[2]+1.5*quartiles(x)[3]){
+#' Take a vector containing a sample and find the outliers
+#' @param X vector containing a sample
+#'
+#' @return a Boolean vector with TRUE at the elements corresponding to outliers and FALSE everywhere else 
+
+tukey.outlier <- function(X){
+  outlier <- vector(length = length(X))
+  for (i in 1:length(X)) {
+    if(X[i] < quartiles(X)[1]-1.5*quartiles(X)[3] || X[i] > quartiles(X)[2]+1.5*quartiles(X)[3]){
       outlier[i] <- TRUE
     } else {
       outlier[i] <- FALSE
@@ -94,34 +101,61 @@ tukey.outlier <- function(x){
 tukey.outlier(x)
 ```
 
-
+The function gives the correct output because 28.7 is the only outlier and is the only element in the vector that returned a TRUE.
 
 ## 5
 
 
 ```{r}
-test.tukey.outlier <- function(tukey.outlier) {
+test.tukey.outlier <- function(fun = tukey.outlier){
+  x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
+  
+  outliers.booleans <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
+  
+  if(sum(fun(x)==outliers.booleans)==length(x)){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
   
 }
+test.tukey.outlier(tukey.outlier)
 ```
 
-
+The function test.tukey.outlier gives the correct answer when passed tukey.outlier. 
 
 ## 6
 
-
-
-```{r}
--x
-```
-
+The data value that should be outliers in -x is -28.7.
 
 
 ## 7
 
 
-
 ```{r}
+test.tukey.outlier <- function(fun = tukey.outlier){
+  x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
+  
+negative.x <- c(-2.2, -7.8, 4.4, 0.0, 1.2, -3.9, -4.9, 5.7, 7.9, 4.9, -28.7, -4.9)
+  
+
+  outliers.booleans <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
+  
+  out.result <- rep(NA,2)
+  
+  if(sum(fun(x)==outliers.booleans)==length(x)){
+    out.result[1] <- TRUE
+  }else{
+    out.result[1] <- FALSE
+  }
+  
+ if(sum(fun(negative.x)==outliers.booleans)==length(negative.x)){
+   out.result[2] <- TRUE
+ }else{
+   out.result[2] <- FALSE
+ }
+ return(out.result) 
+}
 
 ```
 
@@ -130,20 +164,17 @@ test.tukey.outlier <- function(tukey.outlier) {
 ## 8
 
 
-
 ```{r}
-
+test.tukey.outlier(tukey.outlier)
 ```
 
+Since we get two TRUE's this means that tukey.outlier() passes the new set of tests.
 
 
 ## 9
 
 
-
-```{r}
-
-```
+The data value that should be an outlier in 0.1x is 2.87.
 
 
 
@@ -152,7 +183,37 @@ test.tukey.outlier <- function(tukey.outlier) {
 
 
 ```{r}
+test.tukey.outlier <- function(fun = tukey.outlier){
+  x <- c(2.2, 7.8, -4.4, 0.0, -1.2, 3.9, 4.9, -5.7, -7.9, -4.9, 28.7, 4.9)
+  
+negative.x <- c(-2.2, -7.8, 4.4, 0.0, 1.2, -3.9, -4.9, 5.7, 7.9, 4.9, -28.7, -4.9)
 
+tenth.x <- c(.22, .78, -.44, 0.0, -.12, .39, .49, -.59, -.79, -.49, 2.87, .49)
+  
+
+  outliers.booleans <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
+  
+  out.result <- rep(NA,3)
+  
+  if(sum(fun(x)==outliers.booleans)==length(x)){
+    out.result[1] <- TRUE
+  }else{
+    out.result[1] <- FALSE
+  }
+  
+ if(sum(fun(negative.x)==outliers.booleans)==length(negative.x)){
+   out.result[2] <- TRUE
+ }else{
+   out.result[2] <- FALSE
+ }
+  
+   if(sum(fun(tenth.x)==outliers.booleans)==length(tenth.x)){
+   out.result[3] <- TRUE
+ }else{
+   out.result[3] <- FALSE
+ }
+ return(out.result) 
+}
 ```
 
 
@@ -162,8 +223,9 @@ test.tukey.outlier <- function(tukey.outlier) {
 
 
 ```{r}
-
+test.tukey.outlier(tukey.outlier)
 ```
+
 
 
 
